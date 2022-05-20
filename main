@@ -1,0 +1,69 @@
+#include <stdio.h>
+
+struct Country
+{
+	char name[100];
+	int goldNum;
+	int silverNum;
+	int bronzeNum;
+	int totalNum;
+};
+typedef struct Country Country;
+
+Country c[8];
+
+void printfCountry(Country c)
+{
+	printf("%s\t%d\t%d\t%d\t%d\n",c.name,c.goldNum,c.silverNum,c.bronzeNum,c.totalNum);
+}
+
+void sort(Country c[],int n)
+{
+	for(int i=0;i<n-1;i++)
+	{
+		for(int j=0;j<n-1-i;j++)
+		{
+			if(c[j].totalNum>c[j+1].totalNum)
+			{
+				Country temp=c[j];
+				c[j]=c[j+1];
+				c[j+1]=temp;
+			}
+		}
+	}
+}
+
+void readNatial()
+{
+	FILE* fp=fopen("D:\\natial.txt","r");
+	if(fp==NULL)
+	{
+		printf("Error\n");
+		return;
+	}
+	for(int i=0;i<8;i++)
+	{
+		fscanf(fp,"%s %d %d %d %d\n",c[i].name,&c[i].goldNum,&c[i].silverNum,&c[i].bronzeNum,&c[i].totalNum);
+	}
+	fclose(fp);
+}
+
+void writeNatial()
+{
+	FILE* outfp=fopen("D://national_sort.txt","w");
+	for(int i=0;i<8;i++)
+	{
+		fprintf(outfp,"%s\t%d\t%d\t%d\t%d\n",c[i].name,&c[i].goldNum,&c[i].silverNum,&c[i].bronzeNum,&c[i].totalNum);
+	}
+	fclose(outfp);
+}
+
+int main()
+{
+
+	readNatial();
+	sort(c,8);
+	writeNatial();
+
+	return 0;
+}
